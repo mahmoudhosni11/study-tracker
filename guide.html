@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="guide-html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل الاستخدام | StudyTracker Guide</title>
+    <meta name="description" content="دليل شامل لاستخدام منصة StudyTracker - تتبع دراستك وحقق أهدافك">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0C0C09; --secondary: #312C85; --success: #16A34A;
+            --warning: #D97706; --danger: #DC2626; --surface: #F4F4F1;
+            --text: #0C0C09; --text-muted: #6B7280; --border: #E5E5E0;
+            --card-bg: #FFFFFF; --accent-light: rgba(49,44,133,0.08);
+            --shadow-md: 0 4px 12px rgba(12,12,9,0.06);
+            --radius-md: 12px; --radius-lg: 16px;
+            --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+        }
+        [data-theme="dark"] {
+            --primary: #F4F4F1; --secondary: #8B85E0; --success: #22C55E;
+            --warning: #FBBF24; --danger: #F87171; --surface: #111113;
+            --text: #E5E5E0; --text-muted: #9CA3AF; --border: #2A2A2E;
+            --card-bg: #18181B; --accent-light: rgba(139,133,224,0.12);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Open Sans', sans-serif; background: var(--surface);
+            color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased;
+        }
+        .guide-toolbar {
+            position: sticky; top: 0; z-index: 100; background: var(--card-bg);
+            border-bottom: 1px solid var(--border); display: flex;
+            align-items: center; justify-content: space-between;
+            padding: 0 32px; height: 52px;
+        }
+        .guide-toolbar a {
+            color: var(--secondary); text-decoration: none; font-weight: 600;
+            font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .guide-toolbar a:hover { text-decoration: underline; }
+        .toolbar-actions { display: flex; gap: 10px; }
+        .tb { padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px;
+            background: var(--surface); color: var(--text); font-size: 0.8rem;
+            font-weight: 500; cursor: pointer; font-family: 'Open Sans', sans-serif;
+            transition: all var(--transition);
+        }
+        .tb:hover { background: var(--accent-light); color: var(--secondary); border-color: var(--secondary); }
+        .guide-container { max-width: 780px; margin: 0 auto; padding: 48px 24px 80px; }
+        .hero { text-align: center; margin-bottom: 56px; }
+        .hero-icon { font-size: 3.5rem; margin-bottom: 16px; display: block; }
+        .hero h1 {
+            font-family: 'Inter', sans-serif; font-size: 2.2rem; font-weight: 900;
+            letter-spacing: -0.03em; margin-bottom: 12px; line-height: 1.2;
+        }
+        .hero p { font-size: 1.05rem; color: var(--text-muted); max-width: 520px; margin: 0 auto; }
+        .section { margin-bottom: 48px; }
+        .section h2 {
+            font-family: 'Inter', sans-serif; font-size: 1.35rem; font-weight: 800;
+            margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .feature-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 24px; transition: all var(--transition);
+        }
+        .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .feature-card .f-icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
+        .feature-card h3 {
+            font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .feature-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+        .steps { counter-reset: step; }
+        .step {
+            counter-increment: step; display: flex; gap: 20px;
+            margin-bottom: 24px; align-items: flex-start;
+        }
+        .step-num {
+            flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
+            background: var(--secondary); color: white; display: flex;
+            align-items: center; justify-content: center; font-family: 'Inter', sans-serif;
+            font-weight: 800; font-size: 0.95rem;
+        }
+        [data-theme="dark"] .step-num { color: #111113; }
+        .step-body h3 {
+            font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 4px;
+        }
+        .step-body p { font-size: 0.88rem; color: var(--text-muted); }
+        .faq-item {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 20px; margin-bottom: 12px;
+        }
+        .faq-item h4 {
+            font-family: 'Inter', sans-serif; font-size: 0.92rem; font-weight: 700;
+            margin-bottom: 6px; color: var(--secondary);
+        }
+        .faq-item p { font-size: 0.85rem; color: var(--text-muted); }
+        .footer {
+            text-align: center; padding: 40px 24px; border-top: 1px solid var(--border);
+            margin-top: 48px;
+        }
+        .footer .credit {
+            font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        .footer p { font-size: 0.85rem; color: var(--text-muted); }
+        .footer .avatar {
+            width: 64px; height: 64px; border-radius: 50%; border: 3px solid var(--border);
+            margin: 0 auto 12px; display: block; object-fit: cover;
+        }
+        @media (max-width: 600px) {
+            .feature-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.6rem; }
+            .guide-container { padding: 32px 16px 60px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toolbar -->
+    <div class="guide-toolbar">
+        <a href="index.html">← <span id="t-back">العودة للمنصة</span></a>
+        <div class="toolbar-actions">
+            <button class="tb" id="g-theme" onclick="toggleGTheme()">🌙</button>
+            <button class="tb" id="g-lang" onclick="toggleGLang()">English</button>
+        </div>
+    </div>
+
+    <div class="guide-container">
+        <!-- HERO -->
+        <div class="hero">
+            <span class="hero-icon">📚</span>
+            <h1 id="t-hero-title">دليل استخدام منصة StudyTracker</h1>
+            <p id="t-hero-sub">دليلك الشامل لفهم المنصة واستخدامها بأقصى فعالية لتحقيق أهدافك التعليمية</p>
+        </div>
+
+        <!-- WHAT IS -->
+        <div class="section">
+            <h2 id="t-what-title">🎯 ما هي منصة StudyTracker؟</h2>
+            <p id="t-what-body" style="font-size:0.95rem; color:var(--text-muted); margin-bottom:16px;">
+                StudyTracker هي منصة ذكية لتتبع التعلم الذاتي، تساعدك على تنظيم دراستك وتحقيق أهدافك عبر نظام مهام يومية، اختبارات معرفية، مؤقت تركيز بتقنية بومودورو، وتحليل ذكي لأدائك. المنصة تدعم تعدد المستخدمين، مما يعني أنه يمكن لأي شخص إنشاء حساب وبناء خطة دراسية مخصصة.
+            </p>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="section">
+            <h2 id="t-feat-title">✨ مميزات المنصة</h2>
+            <div class="feature-grid" id="features-grid">
+                <div class="feature-card"><span class="f-icon">📊</span><h3 id="f1t">لوحة تحكم ذكية</h3><p id="f1d">عرض شامل لنقاط الخبرة (XP)، نسبة الإنجاز، الأيام المتبقية، ورسم بياني تفصيلي لتقدمك في كل مسار.</p></div>
+                <div class="feature-card"><span class="f-icon">✅</span><h3 id="f2t">نظام مهام يومية</h3><p id="f2d">مهام مجدولة يومياً مع تصنيف حسب المسار (JavaScript, Media Buying, Canva, CapCut). كل مهمة قابلة للتوسيع لعرض تفاصيلها ومصادرها.</p></div>
+                <div class="feature-card"><span class="f-icon">🧠</span><h3 id="f3t">اختبارات معرفية</h3><p id="f3d">عند إكمال مهمة، يظهر اختبار من 3 أسئلة للتأكد من فهمك. الإجابة الصحيحة تمنحك 150 نقطة XP.</p></div>
+                <div class="feature-card"><span class="f-icon">⏱️</span><h3 id="f4t">مؤقت بومودورو</h3><p id="f4d">مؤقت تركيز مدمج بخيارات 25 دقيقة (عمل) و 5 دقائق (راحة) مع عداد للجلسات المكتملة.</p></div>
+                <div class="feature-card"><span class="f-icon">🌙</span><h3 id="f5t">وضع داكن ولغتين</h3><p id="f5d">تبديل فوري بين الوضع الفاتح والداكن، ودعم كامل للغة العربية والإنجليزية.</p></div>
+                <div class="feature-card"><span class="f-icon">👥</span><h3 id="f6t">تعدد المستخدمين</h3><p id="f6d">أنشئ حسابك الخاص وأضف مهامك المخصصة بتفاصيلها ومصادرها. كل مستخدم لديه بيانات منفصلة تماماً.</p></div>
+                <div class="feature-card"><span class="f-icon">📋</span><h3 id="f7t">تفاصيل المهام</h3><p id="f7d">أضف وصفاً ورابط مصدر وملاحظات شخصية لأي مهمة. التفاصيل قابلة للتعديل في أي وقت.</p></div>
+                <div class="feature-card"><span class="f-icon">📥</span><h3 id="f8t">تصدير PDF وسجل الإنجازات</h3><p id="f8d">استعرض كل ما أنجزته وحمّل تقريراً مفصلاً بصيغة PDF يشمل الأسئلة والإجابات.</p></div>
+            </div>
+        </div>
+
+        <!-- HOW TO USE -->
+        <div class="section">
+            <h2 id="t-how-title">🚀 كيفية الاستخدام</h2>
+            <div class="steps" id="steps-container">
+                <div class="step"><div class="step-num">1</div><div class="step-body"><h3 id="s1t">إنشاء حساب أو تسجيل الدخول</h3><p id="s1d">عند فتح المنصة ستظهر شاشة تسجيل الدخول. أنشئ حساباً جديداً بإدخال اسمك وكلمة مرور، أو سجل دخولك إذا كنت تملك حساباً.</p></div></div>
+                <div class="step"><div class="step-num">2</div><div class="step-body"><h3 id="s2t">استكشف لوحة التحكم</h3><p id="s2d">بعد تسجيل الدخول ستجد لوحة التحكم بها إحصائياتك: نقاط XP، نسبة الإنجاز، الأيام المتبقية، ورسم بياني لتقدمك.</p></div></div>
+                <div class="step"><div class="step-num">3</div><div class="step-body"><h3 id="s3t">أنجز مهامك اليومية</h3><p id="s3d">اذهب لقسم "المهام" لرؤية مهام اليوم. اضغط على المربع بجانب المهمة لإكمالها. سيظهر اختبار قصير للتأكد من فهمك.</p></div></div>
+                <div class="step"><div class="step-num">4</div><div class="step-body"><h3 id="s4t">أضف تفاصيل لمهامك</h3><p id="s4d">اضغط زر "التفاصيل" بجانب أي مهمة لعرض أو إضافة وصف ورابط مصدر وملاحظات شخصية.</p></div></div>
+                <div class="step"><div class="step-num">5</div><div class="step-body"><h3 id="s5t">أضف مهام مخصصة</h3><p id="s5d">في أسفل صفحة المهام ستجد نموذجاً لإضافة مهمة جديدة بالاسم والوصف والمصدر والتصنيف الذي تريده.</p></div></div>
+                <div class="step"><div class="step-num">6</div><div class="step-body"><h3 id="s6t">استخدم مؤقت التركيز</h3><p id="s6d">اذهب لقسم "مؤقت التركيز" واضغط "ابدأ" لبدء جلسة بومودورو مدتها 25 دقيقة من التركيز العميق.</p></div></div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="section">
+            <h2 id="t-faq-title">❓ أسئلة شائعة</h2>
+            <div id="faq-container">
+                <div class="faq-item"><h4 id="q1t">هل أحتاج اتصال إنترنت؟</h4><p id="q1d">لا، المنصة تعمل بالكامل محلياً في متصفحك. الاتصال مطلوب فقط للمزامنة السحابية (متاحة لحساب المالك فقط).</p></div>
+                <div class="faq-item"><h4 id="q2t">هل بياناتي آمنة؟</h4><p id="q2d">بياناتك محفوظة في متصفحك (localStorage). لا يتم إرسالها لأي خادم خارجي إلا في حالة المزامنة السحابية الاختيارية.</p></div>
+                <div class="faq-item"><h4 id="q3t">هل يمكنني استخدام المنصة على الهاتف؟</h4><p id="q3d">نعم! المنصة متجاوبة بالكامل وتعمل على جميع الأجهزة والشاشات.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <img src="profile.jpg.jpeg" alt="محمود حسني" class="avatar">
+        <div class="credit" id="t-credit">تم تصميم وتطوير هذه المنصة بواسطة</div>
+        <p style="font-family:'Inter',sans-serif; font-weight:800; font-size:1.15rem; color:var(--text); margin-bottom:4px;">محمود حسني — Mahmoud Hosni</p>
+        <p id="t-rights">© 2026 جميع الحقوق محفوظة</p>
+    </div>
+
+    <script>
+    // === EN Translations ===
+    const EN = {
+        't-back': '← Back to Platform', 't-hero-title': 'StudyTracker User Guide',
+        't-hero-sub': 'Your complete guide to understanding and using the platform to achieve your learning goals',
+        't-what-title': '🎯 What is StudyTracker?',
+        't-what-body': 'StudyTracker is a smart self-learning tracker that helps you organize your study plan and achieve your goals through daily tasks, knowledge quizzes, a Pomodoro focus timer, and intelligent performance analysis. The platform supports multiple users — anyone can create an account and build a personalized study plan.',
+        't-feat-title': '✨ Platform Features',
+        'f1t':'Smart Dashboard','f1d':'Overview of XP points, completion rate, remaining days, and a detailed chart of your progress across all tracks.',
+        'f2t':'Daily Task System','f2d':'Tasks scheduled daily by track (JavaScript, Media Buying, Canva, CapCut). Each task is expandable to show details and resources.',
+        'f3t':'Knowledge Quizzes','f3d':'When completing a task, a 3-question quiz appears to test understanding. Correct answers earn 150 XP points.',
+        'f4t':'Pomodoro Timer','f4d':'Built-in focus timer with 25-minute (work) and 5-minute (break) options, plus a session counter.',
+        'f5t':'Dark Mode & Bilingual','f5d':'Instant toggle between light and dark mode, with full Arabic and English language support.',
+        'f6t':'Multi-User Support','f6d':'Create your own account and add custom tasks with details and resources. Each user has completely separate data.',
+        'f7t':'Task Details','f7d':'Add a description, resource link, and personal notes to any task. Details can be edited anytime.',
+        'f8t':'PDF Export & Achievement Log','f8d':'Review everything you\'ve accomplished and download a detailed PDF report including questions and answers.',
+        't-how-title': '🚀 How to Use',
+        's1t':'Create an Account or Sign In','s1d':'When you open the platform, a login screen appears. Create a new account with your name and password, or sign in if you already have one.',
+        's2t':'Explore the Dashboard','s2d':'After signing in, you\'ll find the dashboard with your stats: XP points, completion rate, remaining days, and a progress chart.',
+        's3t':'Complete Your Daily Tasks','s3d':'Go to the "Tasks" section to see today\'s tasks. Click the checkbox next to a task to complete it. A short quiz will appear to test your understanding.',
+        's4t':'Add Details to Your Tasks','s4d':'Click the "Details" button next to any task to view or add a description, resource link, and personal notes.',
+        's5t':'Add Custom Tasks','s5d':'At the bottom of the tasks page, you\'ll find a form to add a new task with a name, description, resource, and category.',
+        's6t':'Use the Focus Timer','s6d':'Go to "Focus Timer" and press "Start" to begin a 25-minute Pomodoro session of deep focus.',
+        't-faq-title': '❓ FAQ',
+        'q1t':'Do I need internet?','q1d':'No, the platform works entirely locally in your browser. Internet is only required for cloud sync (available for the owner account only).',
+        'q2t':'Is my data safe?','q2d':'Your data is stored in your browser (localStorage). It is never sent to any external server except for optional cloud sync.',
+        'q3t':'Can I use it on mobile?','q3d':'Yes! The platform is fully responsive and works on all devices and screen sizes.',
+        't-credit': 'This platform was designed and developed by',
+        't-rights': '© 2026 All rights reserved'
+    };
+    const AR = {};
+    // Store Arabic originals
+    Object.keys(EN).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) AR[id] = el.textContent || el.innerText;
+    });
+
+    let gLang = localStorage.getItem('studyTracker_lang') || 'ar';
+    let gTheme = localStorage.getItem('studyTracker_theme') || 'light';
+
+    function applyGLang() {
+        const isAr = gLang === 'ar';
+        document.getElementById('guide-html').lang = gLang;
+        document.getElementById('guide-html').dir = isAr ? 'rtl' : 'ltr';
+        document.getElementById('g-lang').textContent = isAr ? 'English' : 'العربية';
+        const dict = isAr ? AR : EN;
+        Object.keys(dict).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = dict[id];
+        });
+    }
+    function toggleGLang() {
+        gLang = gLang === 'ar' ? 'en' : 'ar';
+        localStorage.setItem('studyTracker_lang', gLang);
+        applyGLang();
+    }
+    function toggleGTheme() {
+        const html = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        if (isDark) { html.removeAttribute('data-theme'); gTheme = 'light'; }
+        else { html.setAttribute('data-theme', 'dark'); gTheme = 'dark'; }
+        localStorage.setItem('studyTracker_theme', gTheme);
+        document.getElementById('g-theme').textContent = gTheme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // Init
+    if (gTheme === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); document.getElementById('g-theme').textContent = '☀️'; }
+    if (gLang === 'en') applyGLang();
+    </script>
+</body>
+</html>

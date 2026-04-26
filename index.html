@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyTracker | منصة التطوير الذكي</title>
+    <meta name="description" content="منصة تتبع الدراسة والتطوير الذاتي - تتبع مهامك، حقق أهدافك">
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=6.0">
+</head>
+
+<body>
+    <!-- ===== AUTH SCREEN ===== -->
+    <div id="auth-screen" class="auth-screen" style="display:none;">
+        <div class="auth-card" id="auth-card">
+            <!-- Filled by JS -->
+        </div>
+    </div>
+
+    <!-- ===== TOP TOOLBAR ===== -->
+    <div class="top-toolbar" id="top-toolbar">
+        <button class="toolbar-btn" id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <span class="btn-icon" id="theme-icon">🌙</span>
+            <span data-i18n="darkMode">الوضع الداكن</span>
+        </button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" id="lang-toggle" onclick="toggleLanguage()" aria-label="Toggle language">
+            <span class="btn-icon">🌐</span>
+            <span id="lang-label">English</span>
+        </button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" id="logout-btn" onclick="logoutUser()" style="display:none;">
+            <span class="btn-icon">🚪</span>
+            <span data-i18n="logout">خروج</span>
+        </button>
+    </div>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="فتح القائمة">☰</button>
+
+    <div class="app-wrapper" id="app-wrapper">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-profile">
+                <img src="profile.jpg.jpeg" alt="محمود حسني" class="profile-pic" id="sidebar-avatar">
+                <div class="profile-name" id="sidebar-name">محمود حسني</div>
+                <div class="profile-rank" id="user-rank">مبتدئ 🐣</div>
+                <div class="streak-badge" id="streak-badge">🔥 0 يوم متواصل</div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="dashboard" onclick="switchSection('dashboard')">
+                    <span class="nav-icon">📊</span> <span data-i18n="dashboard">لوحة التحكم</span>
+                </button>
+                <button class="nav-item" data-section="tasks" onclick="switchSection('tasks')">
+                    <span class="nav-icon">✅</span> <span data-i18n="tasks">المهام</span>
+                </button>
+                <button class="nav-item" data-section="focus" onclick="switchSection('focus')">
+                    <span class="nav-icon">⏱️</span> <span data-i18n="focusTimer">مؤقت التركيز</span>
+                </button>
+                <button class="nav-item" onclick="openArchive()">
+                    <span class="nav-icon">📚</span> <span data-i18n="archive">سجل الإنجازات</span>
+                </button>
+                <button class="nav-item" onclick="forceSync()">
+                    <span class="nav-icon">🔄</span> <span data-i18n="sync">مزامنة يدوية</span>
+                </button>
+                <a href="guide.html" class="nav-item" style="text-decoration:none;">
+                    <span class="nav-icon">📖</span> <span data-i18n="guide">دليل الاستخدام</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-stats">
+                <div class="stat-mini">
+                    <span class="stat-mini-label" data-i18n="xpPoints">نقاط XP</span>
+                    <span class="stat-mini-value" id="xp-score-side">0</span>
+                </div>
+                <div class="stat-mini">
+                    <span class="stat-mini-label" data-i18n="correctAnswers">إجابات صحيحة</span>
+                    <span class="stat-mini-value" id="correct-score-side">0</span>
+                </div>
+                <div class="stat-mini">
+                    <span class="stat-mini-label" data-i18n="completedTasks">المهام المكتملة</span>
+                    <span class="stat-mini-value" id="completed-count-side">0</span>
+                </div>
+                <div class="sync-status" id="sync-container">
+                    <span id="last-sync-time">☁️ جاري المزامنة...</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 id="main-title">Never Give Up 💪</h1>
+                <p class="subtitle" id="current-date"></p>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="section-dashboard">
+                <!-- Metrics -->
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-label" data-i18n="experiencePoints">نقاط الخبرة</div>
+                        <div class="metric-value xp" id="xp-score">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label" data-i18n="correctAnswers">إجابات صحيحة</div>
+                        <div class="metric-value correct" id="correct-score">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label" data-i18n="totalProgress">الإنجاز الكلي</div>
+                        <div class="metric-value percent" id="overall-percent-metric">0%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label" data-i18n="daysRemaining">الأيام المتبقية</div>
+                        <div class="metric-value" id="days-remaining">--</div>
+                    </div>
+                </div>
+
+                <!-- Overall Progress -->
+                <div class="overall-progress">
+                    <div class="progress-label">
+                        <span data-i18n="overallCompletion">نسبة الإنجاز الكلية</span>
+                        <span id="overall-percent">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-fill" id="overall-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Track Stats -->
+                <div id="track-stats" class="track-stats-grid"></div>
+
+                <!-- AI Advice -->
+                <div id="ai-advice-container" class="section-card advice-card">
+                    <h3 style="margin-bottom: 0.4rem;" data-i18n="aiAnalysis">🧠 تحليل ذكي لأدائك</h3>
+                    <p id="ai-advice-text" style="font-size: 0.9rem; line-height: 1.7; color: var(--text-muted);" data-i18n="aiDefault">نجمع المعطيات... قم بحل بضع مهام لنقوم بتحليل مستواك.</p>
+                </div>
+
+                <!-- Chart -->
+                <div id="chart-container" class="section-card chart-card">
+                    <h3 style="margin-bottom: 1rem;" data-i18n="detailedProgress">التقدم التفصيلي</h3>
+                    <canvas id="progressChart" width="400" height="150"></canvas>
+                </div>
+            </div>
+
+            <!-- Tasks Section -->
+            <div id="section-tasks">
+                <!-- Overdue -->
+                <div id="overdue-container" class="section-card overdue-card" style="display:none;">
+                    <div class="section-header">
+                        <h2 data-i18n="overdueTasks">⚠️ مهام متراكمة</h2>
+                    </div>
+                    <ul class="task-list" id="overdue-list"></ul>
+                </div>
+
+                <!-- Today -->
+                <div id="today-container" class="section-card today-card">
+                    <div class="section-header">
+                        <h2 data-i18n="todayTasks">مهام اليوم</h2>
+                    </div>
+                    <ul class="task-list" id="today-list"></ul>
+                </div>
+
+                <!-- Tomorrow -->
+                <div id="upcoming-container" class="section-card upcoming-card">
+                    <div class="section-header">
+                        <h2 data-i18n="tomorrowTasks">مهام الغد — XP مضاعف</h2>
+                        <button class="small-btn" onclick="showTomorrow()" data-i18n="show">إظهار</button>
+                    </div>
+                    <ul class="task-list" id="tomorrow-list" style="display:none;"></ul>
+                </div>
+
+                <!-- Completed Today -->
+                <div id="completed-container" class="section-card success-card" style="display:none;">
+                    <h3 data-i18n="allDone">🎉 أنجزت مهام اليوم! استمر.</h3>
+                </div>
+
+                <!-- Summary -->
+                <div id="summary-section" class="section-card" style="display:none; border-right: 3px solid var(--success);">
+                    <h3 style="color: var(--success); margin-bottom: 0.4rem;" data-i18n="currentSummary">📝 ملخص المستوى الحالي</h3>
+                    <p id="summary-text" style="font-size: 0.9rem; line-height: 1.7; color: var(--text-muted);"></p>
+                </div>
+            </div>
+
+            <!-- Focus Timer Section -->
+            <div id="section-focus" style="display:none;">
+                <div class="focus-timer-card">
+                    <h3 style="font-family: 'Inter', sans-serif; font-weight: 700; margin-bottom: 8px;" data-i18n="focusTimerTitle">⏱️ مؤقت التركيز</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;" data-i18n="pomodoroDesc">استخدم تقنية بومودورو للتركيز العميق أثناء الدراسة</p>
+                    <div class="timer-display" id="timer-display">25:00</div>
+                    <div class="timer-controls">
+                        <button class="timer-btn" id="timer-start" onclick="toggleTimer()" data-i18n="start">ابدأ</button>
+                        <button class="timer-btn" onclick="resetTimer()" data-i18n="reset">إعادة</button>
+                        <button class="timer-btn" onclick="setTimer(25)">25 د</button>
+                        <button class="timer-btn" onclick="setTimer(5)">5 د</button>
+                    </div>
+                    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border);">
+                        <div class="stat-mini">
+                            <span class="stat-mini-label" data-i18n="todaySessions">جلسات اليوم</span>
+                            <span class="stat-mini-value" id="pomodoro-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Task Form (all users) -->
+            <div id="add-task-section" class="plan-setup-card">
+                <h3 data-i18n="addCustomTask">➕ إضافة مهمة مخصصة</h3>
+                <div class="plan-input-group">
+                    <label data-i18n="taskName">اسم المهمة</label>
+                    <input type="text" id="custom-task-input" placeholder="مثال: مراجعة الفصل الثالث..." data-i18n-placeholder="taskNamePlaceholder">
+                </div>
+                <div class="plan-input-group">
+                    <label data-i18n="taskDescription">وصف المهمة / ملاحظات</label>
+                    <textarea id="custom-task-desc" rows="2" class="auth-input" style="resize:vertical; height:auto; margin-bottom:0;" placeholder="تفاصيل إضافية..." data-i18n-placeholder="descPlaceholder"></textarea>
+                </div>
+                <div class="plan-input-group">
+                    <label data-i18n="taskResource">رابط المصدر (اختياري)</label>
+                    <input type="url" id="custom-task-url" class="auth-input" style="direction:ltr; text-align:left; margin-bottom:0;" placeholder="https://...">
+                </div>
+                <div class="plan-input-group">
+                    <label data-i18n="taskCategory">التصنيف</label>
+                    <select id="custom-task-category" class="auth-input" style="margin-bottom:0;">
+                        <option value="custom">📋 عام</option>
+                        <option value="js">💻 JavaScript</option>
+                        <option value="media">📈 Media Buying</option>
+                        <option value="canva">🎨 Canva</option>
+                        <option value="capcut">🎬 CapCut</option>
+                    </select>
+                </div>
+                <button class="small-btn" onclick="addCustomTask()" style="margin-top: 12px; width: 100%;" data-i18n="addTask">➕ إضافة المهمة</button>
+            </div>
+
+
+            <button id="reset-btn" class="reset-btn" data-i18n="fullReset">إعادة التهيئة الشاملة</button>
+        </main>
+    </div>
+
+    <!-- Archive Modal -->
+    <div id="archive-modal" class="modal">
+        <div class="modal-content" style="max-width: 700px; height: 80vh; overflow-y: auto;">
+            <span class="close-btn" onclick="closeArchive()">&times;</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 style="color: var(--secondary); margin: 0; font-family: 'Inter', sans-serif;" data-i18n="archiveTitle">📜 سجل الإنجازات</h2>
+                <button onclick="downloadPDF()" class="small-btn" style="background:var(--success); color:white; border:none;" data-i18n="downloadPDF">📥 تحميل PDF</button>
+            </div>
+            <div id="archive-content"></div>
+        </div>
+    </div>
+
+    <div id="print-section" class="print-only"></div>
+    <script src="app.js?v=6.0"></script>
+</body>
+
+</html>
