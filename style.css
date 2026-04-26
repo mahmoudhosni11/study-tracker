@@ -40,6 +40,10 @@
     padding: 0;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     font-family: 'Open Sans', sans-serif;
     background-color: var(--surface);
@@ -47,6 +51,7 @@ body {
     min-height: 100vh;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
 /* === LAYOUT === */
@@ -905,16 +910,48 @@ body {
     }
     .sidebar-toggle {
         display: block;
+        top: 56px;
+    }
+    .top-toolbar {
+        right: 0;
+        padding: 0 var(--space-3);
+        gap: var(--space-2);
+    }
+    .toolbar-btn {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+    .toolbar-btn .btn-icon {
+        font-size: 0.9rem;
     }
     .main-content {
         margin-right: 0;
         padding: var(--space-6) var(--space-4);
+        padding-top: 72px !important;
+        max-width: 100%;
+        overflow-x: hidden;
     }
     .metrics-row {
         grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-3);
+    }
+    .metric-card {
+        padding: var(--space-4);
+    }
+    .metric-value {
+        font-size: 1.3rem;
     }
     .track-stats-grid {
         grid-template-columns: 1fr;
+    }
+    .section-card {
+        padding: var(--space-4);
+    }
+    .page-header {
+        margin-bottom: var(--space-6);
+    }
+    .page-header h1 {
+        font-size: 1.3rem;
     }
 }
 
@@ -923,7 +960,23 @@ body {
         grid-template-columns: 1fr;
     }
     .page-header h1 {
-        font-size: 1.4rem;
+        font-size: 1.15rem;
+    }
+    .metric-label {
+        font-size: 0.7rem;
+    }
+    .metric-value {
+        font-size: 1.1rem;
+    }
+    .top-toolbar {
+        height: 44px;
+        padding: 0 var(--space-2);
+    }
+    .toolbar-separator {
+        display: none;
+    }
+    .plan-setup-card {
+        padding: var(--space-4);
     }
 }
 
